@@ -5,7 +5,8 @@ var webpack = require("webpack"),
     CleanWebpackPlugin = require("clean-webpack-plugin"),
     CopyWebpackPlugin = require("copy-webpack-plugin"),
     HtmlWebpackPlugin = require("html-webpack-plugin"),
-    WriteFilePlugin = require("write-file-webpack-plugin");
+    WriteFilePlugin = require("write-file-webpack-plugin"),
+    UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 // load the secrets
 var alias = {};
@@ -22,7 +23,11 @@ var options = {
   entry: {
     popup: path.join(__dirname, "src", "js", "popup.js"),
     options: path.join(__dirname, "src", "js", "options.js"),
-    background: path.join(__dirname, "src", "js", "background.js")
+    background: path.join(__dirname, "src", "js", "background.js"),
+    content: path.join(__dirname, "src", "js", "content.js")
+  },
+  chromeExtensionBoilerplate: {
+    notHotReload: ["content"]
   },
   output: {
     path: path.join(__dirname, "build"),
@@ -83,7 +88,8 @@ var options = {
       filename: "background.html",
       chunks: ["background"]
     }),
-    new WriteFilePlugin()
+    new WriteFilePlugin(),
+    new UglifyJsPlugin()
   ]
 };
 

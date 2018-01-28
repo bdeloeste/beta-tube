@@ -31,7 +31,10 @@ export default class ContainerBuilder {
 
 
   createVideoContainer() {
-    const introDiv = document.querySelector(firstContentSelector);
+    let introDiv = document.querySelector(firstContentSelector);
+    if (document.querySelector('#access-notes') !== null) {
+      introDiv = introDiv.nextElementSibling;
+    }
     if (introDiv) {
       this.videoNode = introDiv.cloneNode(false);
       const headerNode = document.createElement('h2');
@@ -67,7 +70,7 @@ export default class ContainerBuilder {
 
   deleteVideoContainer() {
     if (!this.videoNode) return;
-    const videoNodeChildren = this.videoNode.children();
+    const videoNodeChildren = Array.from(this.videoNode.children);
     videoNodeChildren.forEach((child) => {
       this.videoNode.removeChild(child);
     });
